@@ -12,5 +12,17 @@ name = "backend"
 
 [dependencies]
 actix-web = "4"
+config = "0.15.4"
 reqwest = "0.12.9"
+serde = "1.0.216"
+sqlx = { version = "=0.8.2", features = [
+    "postgres",
+    "macros",
+    "runtime-tokio-native-tls",
+    "migrate",
+    "uuid",
+] }
 tokio = { version = "1", features = ["full"] }
+
+[dev-dependencies]
+sqlx-cli = { version = "0.8.2", features = ["postgres"] }
