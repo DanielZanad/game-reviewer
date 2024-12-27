@@ -12,6 +12,7 @@ name = "backend"
 
 [dependencies]
 actix-web = "4"
+chrono = "0.4.39"
 config = "0.15.4"
 reqwest = "0.12.9"
 serde = "1.0.216"
@@ -23,6 +24,9 @@ sqlx = { version = "=0.8.2", features = [
     "uuid",
 ] }
 tokio = { version = "1", features = ["full"] }
+uuid = {version =  "1.11.0", features = [
+    "v4"
+]}
 
 [dev-dependencies]
 sqlx-cli = { version = "0.8.2", features = ["postgres"] }
