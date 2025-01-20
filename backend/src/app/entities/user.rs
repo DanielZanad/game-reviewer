@@ -1,9 +1,9 @@
 use chrono::{DateTime, Local};
-
+use uuid::Uuid;
 use super::password::Password;
 
 pub struct User {
-    id: String,
+    id: Uuid,
     name: String,
     email: String,
     password: Password,
@@ -13,7 +13,7 @@ pub struct User {
 
 impl User {
     // Constructor for creating a new User
-    pub fn new(id: String, name: String, email: String, password: String) -> Self {
+    pub fn new(id: Uuid, name: String, email: String, password: String) -> Self {
         Self {
             id,
             name,
@@ -25,14 +25,10 @@ impl User {
     }
 
     // Getter for `id`
-    pub fn get_id(&self) -> &String {
+    pub fn get_id(&self) -> &Uuid {
         &self.id
     }
 
-    // Setter for `id`
-    pub fn set_id(&mut self, id: String) {
-        self.id = id;
-    }
 
     // Getter for `name`
     pub fn get_name(&self) -> &String {
@@ -55,7 +51,7 @@ impl User {
     }
 
     // Getter for `country`
-    pub fn get_country(&self) -> &String {
+    pub fn get_password(&self) -> &String {
         &self.password.get_value()
     }
 

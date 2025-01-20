@@ -9,7 +9,7 @@ impl Password {
             panic!("Password must be between 6 and 230 characters long");
         }
         if Self::validate_numbers(&password) {
-            panic!("Password must contain at least one number");
+            panic!("Password only contain numbers");
         }
 
         Self {
@@ -29,11 +29,12 @@ impl Password {
     
 
     fn validate_password_length(password: &str) -> bool {
-        password.len() >= 6 && password.len() <= 230
+        !(password.len() >= 6 && password.len() <= 230)
     }
 
     fn validate_numbers(password: &str) -> bool {
-        // Return true if there is numbers and characters in password
-        !password.chars().all(|c| c.is_digit(10))
+        // Return false if there is numbers and characters in password
+        println!("12321321: {}", password.chars().all(|c| c.is_digit(10)));
+        password.chars().all(|c| c.is_digit(10))
     }
 }

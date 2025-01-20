@@ -1,0 +1,131 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  avatarUrl String?
+  bio       String?
+  location  String?
+
+  Review Review[]
+
+  Playing Playing[]
+
+  Finished Finished[]
+
+  Wishlist Wishlist[]
+}
+
+model Wishlist {
+  id        String   @id @default(uuid())
+  userId    String
+  gameId    String
+  user      User     @relation(fields: [userId], references: [id])
+  game      Game     @relation(fields: [gameId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Playing {
+  id        String   @id @default(uuid())
+  userId    String
+  gameId    String
+  user      User     @relation(fields: [userId], references: [id])
+  game      Game     @relation(fields: [gameId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Finished {
+  id        String   @id @default(uuid())
+  userId    String
+  gameId    String
+  user      User     @relation(fields: [userId], references: [id])
+  game      Game     @relation(fields: [gameId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Review {
+  id        String   @id @default(uuid())
+  title     String
+  content   String
+  rating    Int
+  author    User     @relation(fields: [authorId], references: [id])
+  gameId    String
+  game      Game     @relation(fields: [gameId], references: [id])
+  authorId  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Game {
+  id          String    @id @default(uuid())
+  title       String
+  releaseDate DateTime
+  synopsis    String
+  genres      String[]
+  developerId String
+  publisherId String
+  developer   Developer @relation(fields: [developerId], references: [id])
+  publisher   Publisher @relation(fields: [publisherId], references: [id])
+  Review      Review[]
+  Playing     Playing[]
+
+  Finished Finished[]
+
+  Platform Platform[]
+
+  GamePlatform GamePlatform[]
+
+  Wishlist Wishlist[]
+}
+
+model Platform {
+  id    String @id @default(uuid())
+  name  String
+  games Game[]
+
+  GamePlatform GamePlatform[]
+}
+
+model GamePlatform {
+  gameId     String
+  platformId String
+  game       Game     @relation(fields: [gameId], references: [id])
+  platform   Platform @relation(fields: [platformId], references: [id])
+
+  @@id([gameId, platformId])
+}
+
+model Developer {
+  id      String   @id @default(uuid())
+  name    String
+  founded DateTime
+  country String
+  games   Game[]
+}
+
+model Publisher {
+  id      String   @id @default(uuid())
+  name    String
+  founded DateTime
+  country String
+  games   Game[]
+}
