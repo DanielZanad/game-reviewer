@@ -1,8 +1,12 @@
+import { BrowserRouter, Route, Routes } from "react-router";
+import Home from "./pages/home";
 
-function App() {
+export default function App() {
   return (
-    <h1>game review</h1>
-  )
+    <BrowserRouter>
+      <Routes>
+        <Route path="/" element={<Home />} />
+      </Routes>
+    </BrowserRouter>
+  );
 }
-
-export default App
