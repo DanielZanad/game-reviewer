@@ -21,13 +21,11 @@ let AuthService = class AuthService {
     }
     async signIn(email, pass) {
         const user = await this.userRepository.emailExists(email);
-        console.log('Password send through the request: ', pass);
-        console.log('Password from user: ', user.password);
         const match = await bcrypt.compare(pass, user.password);
         if (!match) {
-            throw new common_1.UnauthorizedException('Invalid credentials');
+            throw new common_1.UnauthorizedException("Invalid credentials");
         }
-        const payload = { sub: user.id, email: user.email };
+        const payload = { user_id: user.id, email: user.email };
         return {
             access_token: await this.jwtService.signAsync(payload),
         };

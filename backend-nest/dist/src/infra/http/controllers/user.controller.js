@@ -21,6 +21,7 @@ const password_1 = require("../../../app/entities/password");
 const sign_in_user_body_1 = require("../dtos/sign-in-user-body");
 const auth_service_1 = require("../../auth/auth.service");
 const auth_guard_1 = require("../../auth/auth.guard");
+const user_view_model_1 = require("../view-model/user-view-model");
 let UserController = class UserController {
     constructor(createUser, authUser) {
         this.createUser = createUser;
@@ -30,7 +31,7 @@ let UserController = class UserController {
         const { name, email, password } = body;
         const payload = new user_1.User({ name, email, password: new password_1.Password(password) });
         const { user } = await this.createUser.execute(payload);
-        return { user };
+        return { user: user_view_model_1.UserViewModel.toHTTP(user) };
     }
     signIn(signInDto) {
         return this.authUser.signIn(signInDto.email, signInDto.password);
@@ -48,7 +49,7 @@ __decorate([
     __metadata("design:returntype", Promise)
 ], UserController.prototype, "create", null);
 __decorate([
-    (0, common_1.Post)('login'),
+    (0, common_1.Post)("login"),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [sign_in_user_body_1.signInUserBody]),
@@ -56,14 +57,14 @@ __decorate([
 ], UserController.prototype, "signIn", null);
 __decorate([
     (0, common_1.UseGuards)(auth_guard_1.AuthGuard),
-    (0, common_1.Get)('profile'),
+    (0, common_1.Get)("profile"),
     __param(0, (0, common_1.Request)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Object]),
     __metadata("design:returntype", void 0)
 ], UserController.prototype, "getProfile", null);
 exports.UserController = UserController = __decorate([
-    (0, common_1.Controller)('user'),
+    (0, common_1.Controller)("user"),
     __metadata("design:paramtypes", [create_user_1.CreateUser,
         auth_service_1.AuthService])
 ], UserController);
