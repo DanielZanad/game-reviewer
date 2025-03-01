@@ -31,6 +31,8 @@ model User {
   Finished Finished[]
 
   Wishlist Wishlist[]
+
+  @@map("user")
 }
 
 model Wishlist {
@@ -40,6 +42,8 @@ model Wishlist {
   user      User     @relation(fields: [userId], references: [id])
   game      Game     @relation(fields: [gameId], references: [id])
   createdAt DateTime @default(now())
+
+  @@map("wishlist")
 }
 
 model Playing {
@@ -50,6 +54,8 @@ model Playing {
   game      Game     @relation(fields: [gameId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("playing")
 }
 
 model Finished {
@@ -60,6 +66,8 @@ model Finished {
   game      Game     @relation(fields: [gameId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("finished")
 }
 
 model Review {
@@ -73,6 +81,8 @@ model Review {
   authorId  String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("review")
 }
 
 model Game {
@@ -84,6 +94,7 @@ model Game {
   developerId String
   publisherId String
   developer   Developer @relation(fields: [developerId], references: [id])
+  createdAt   DateTime  @default(now())
   publisher   Publisher @relation(fields: [publisherId], references: [id])
   Review      Review[]
   Playing     Playing[]
@@ -95,6 +106,8 @@ model Game {
   GamePlatform GamePlatform[]
 
   Wishlist Wishlist[]
+
+  @@map("game")
 }
 
 model Platform {
@@ -102,7 +115,10 @@ model Platform {
   name  String
   games Game[]
 
+  createdAt    DateTime       @default(now())
   GamePlatform GamePlatform[]
+
+  @@map("platform")
 }
 
 model GamePlatform {
@@ -111,7 +127,10 @@ model GamePlatform {
   game       Game     @relation(fields: [gameId], references: [id])
   platform   Platform @relation(fields: [platformId], references: [id])
 
+  createdAt DateTime @default(now())
+
   @@id([gameId, platformId])
+  @@map("game_platform")
 }
 
 model Developer {
@@ -119,13 +138,20 @@ model Developer {
   name    String
   founded DateTime
   country String
-  games   Game[]
+
+  createdAt DateTime @default(now())
+  games     Game[]
+
+  @@map("developer")
 }
 
 model Publisher {
-  id      String   @id @default(uuid())
-  name    String
-  founded DateTime
-  country String
-  games   Game[]
+  id        String   @id @default(uuid())
+  name      String
+  createdAt DateTime @default(now())
+  founded   DateTime
+  country   String
+  games     Game[]
+
+  @@map("publisher")
 }
